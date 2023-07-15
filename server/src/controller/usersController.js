@@ -4,10 +4,12 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const usersModel = require("../models/usersModel");
 
-const createUsers = async (req, res) => {
+exports.createUsers = async (req, res) => {
 
     try {
-        let { fname, lname, email, phoneNo, password, description } = req.body
+
+        let data = req.body;
+        let { fname, lname, email, phoneNo, password, description } = data;
 
 
         if (!(isValid(fname))) { return res.status(400).send({ status: false, message: "please enter first name" }) }
@@ -37,12 +39,11 @@ const createUsers = async (req, res) => {
 
         const rounds = 10;
         let hash = await bcrypt.hash(password, rounds);
-        password = hash;
+        data.password = hash;
 
         if (!(isValid(description))) { return res.status(400).send({ status: false, message: "please enter description" }) }
         if (!(isdescription(description))) { return res.status(400).send({ status: false, message: "please enter valid description" }) }
 
-        let data = req.body
         let result = await usersModel.create(data)
         res.status(201).send({ status: true, message: "User created successfully", data: result })
     }
@@ -51,7 +52,7 @@ const createUsers = async (req, res) => {
     }
 }
 
-const getallUsers = async (req, res) => {
+exports.getallUsers = async (req, res) => {
 
     try {
         let result = await usersModel.find()
@@ -63,4 +64,39 @@ const getallUsers = async (req, res) => {
     }
 }
 
-module.exports = { createUsers, getallUsers }
+exports.login = async (req, res) => {
+    try {
+
+        let author = req.body;
+
+        let { email, password } = author;
+
+        if (email.trim().length === 0 || password.trim().length === 0) return res.status(400).send({ status: false, msg: "please provide login details" });
+
+        if (!email) return res.status(400).send({ msg: " email is required " })
+        if (!password) return res.status(400).send({ msg: "  password is required " })
+
+        let users = await usersModel.findOne({ email: email })
+        if (!users) return res.status(400).send({ msg: "Email is Incorrect!" })
+
+
+        const checkpasword = await bcrypt.compare(password.trim(), users.password);
+        if (!checkpasword) return res.status(400).send({ msg: "password is Incorrect!" });
+
+        let token = jwt.sign(
+            {
+                authorId: users._id.toString(),
+                batch: "lithium",
+                project: "Blog-Project"
+            },
+            process.env.AcessSecretKey, { expiresIn: '12h' }
+        )
+
+        const UserId = users['_id'];
+
+        return res.status(201).send({ msg: "User logged in successfully!", users, token, UserId })
+    } catch (error) {
+        return res.status(500).send({ msg: error.message })
+    }
+}
+
