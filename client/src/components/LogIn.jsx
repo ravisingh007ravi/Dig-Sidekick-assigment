@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from "react-router-dom";
 import Logo from '../images/blogger.png';
 import { Box, TextField, Button, styled } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-// import { DataContext } from './DataProvider';
+import { DataContext } from './DataProvider';
 
 
 
@@ -64,7 +64,7 @@ function LogIn({isUserAuthentication}) {
         seTLogInData({ ...logInData, [e.target.name]: e.target.value })
     }
     
-    // const{setAccount} = useContext(DataContext)
+    const{setAccount} = useContext(DataContext)
 
     const submitLogInDataBase = async (e) => {
         e.preventDefault()
@@ -72,8 +72,8 @@ function LogIn({isUserAuthentication}) {
             const url ='http://localhost:8000/login';
             
             let logInUser = await axios.post(url, logInData)
-            // let name = logInUser.data.loggedAuthor.name;
-            // let email =logInUser.data.loggedAuthor.email;
+            
+            let userName =logInUser.data.users.email;
             
             let token = logInUser.data.token;
             let UserId = logInUser.data.UserId;
@@ -82,12 +82,12 @@ function LogIn({isUserAuthentication}) {
             else {
                 localStorage.setItem('AcessToken',token);
                 localStorage.setItem('UserId',UserId);
-                // setAccount({email:email,name:name});
+                setAccount({userName:userName});
                 isUserAuthentication(true);
                 navigate('/');
             }
         }
-        catch (err) { window.alert(err.response) }
+        catch (err) { window.alert(err.response.data.message) }
     }
 
     return (
