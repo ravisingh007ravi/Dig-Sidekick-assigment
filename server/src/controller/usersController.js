@@ -12,26 +12,26 @@ exports.createUsers = async (req, res) => {
         let { fname, lname, email, phoneNo, password, description } = data;
 
 
-        if (!(isValid(fname))) { return res.status(400).send({ status: false, message: "please enter first name" }) }
-        if (!(isValidName(fname))) { return res.status(400).send({ status: false, message: "please enter valid first name" }) }
+        if (!(isValid(fname))) { return res.status(400).send({ status: false, message: "please Enter First Name" }) }
+        if (!(isValidName(fname))) { return res.status(400).send({ status: false, message: "please Enter Valid First Name" }) }
 
-        if (!(isValid(lname))) { return res.status(400).send({ status: false, message: "please enter last name" }) }
-        if (!(isValidName(lname))) { return res.status(400).send({ status: false, message: "please enter valid last name" }) }
+        if (!(isValid(lname))) { return res.status(400).send({ status: false, message: "please Enter last Name" }) }
+        if (!(isValidName(lname))) { return res.status(400).send({ status: false, message: "please Enter valid last Name" }) }
 
-        if (!(isValid(email))) { return res.status(400).send({ status: false, message: "please enter email" }) }
-        if (!(isValidEmail(email))) { return res.status(400).send({ status: false, message: "please enter valid Email" }) }
+        if (!(isValid(email))) { return res.status(400).send({ status: false, message: "please Enter email" }) }
+        if (!(isValidEmail(email))) { return res.status(400).send({ status: false, message: "please Enter valid Email" }) }
 
         const duplicateEmail = await UserModel.findOne({ email: email });
         if (duplicateEmail) { return res.status(400).send({ status: false, message: "Email is already exist" }) };
 
-        if (!(isValid(phoneNo))) { return res.status(400).send({ status: false, message: "please enter phone No" }) }
-        if (!(isValidphoneNo(phoneNo))) { return res.status(400).send({ status: false, message: "please enter valid phone No" }) }
+        // if (!(isValid(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter Phone No" }) }
+        // if (!(isValidphoneNo(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter valid Phone No" }) }
 
         const duplicatePhone = await UserModel.findOne({ phoneNo: phoneNo });
         if (duplicatePhone) { return res.status(400).send({ status: false, message: "phone is already exist" }) };
 
 
-        if (!(isValid(password))) return res.status(400).send({ status: false, message: "please enter password" })
+        if (!(isValid(password))) return res.status(400).send({ status: false, message: "please Enter password" })
 
         if (!isValidPassword(password)) {
             return res.status(400).send({ status: false, message: 'Password should be of minimum 8 characters & maximum 15 characters' })
@@ -40,9 +40,6 @@ exports.createUsers = async (req, res) => {
         const rounds = 10;
         let hash = await bcrypt.hash(password, rounds);
         data.password = hash;
-
-        if (!(isValid(description))) { return res.status(400).send({ status: false, message: "please enter description" }) }
-        if (!(isdescription(description))) { return res.status(400).send({ status: false, message: "please enter valid description" }) }
 
         let result = await usersModel.create(data)
         res.status(201).send({ status: true, message: "User created successfully", data: result })
@@ -73,15 +70,15 @@ exports.login = async (req, res) => {
 
         if (email.trim().length === 0 || password.trim().length === 0) return res.status(400).send({ status: false, msg: "please provide login details" });
 
-        if (!email) return res.status(400).send({ msg: " email is required " })
-        if (!password) return res.status(400).send({ msg: "  password is required " })
+        if (!email) return res.status(400).send({ message: " email is required " })
+        if (!password) return res.status(400).send({ message: "  password is required " })
 
         let users = await usersModel.findOne({ email: email })
-        if (!users) return res.status(400).send({ msg: "Email is Incorrect!" })
+        if (!users) return res.status(400).send({ message: "Email is Incorrect!" })
 
 
         const checkpasword = await bcrypt.compare(password.trim(), users.password);
-        if (!checkpasword) return res.status(400).send({ msg: "password is Incorrect!" });
+        if (!checkpasword) return res.status(400).send({ message: "password is Incorrect!" });
 
         let token = jwt.sign(
             {
@@ -94,9 +91,9 @@ exports.login = async (req, res) => {
 
         const UserId = users['_id'];
 
-        return res.status(201).send({ msg: "User logged in successfully!", users, token, UserId })
+        return res.status(201).send({ message: "User logged in successfully!", users, token, UserId })
     } catch (error) {
-        return res.status(500).send({ msg: error.message })
+        return res.status(500).send({ message: error.message })
     }
 }
 
