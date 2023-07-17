@@ -1,3 +1,25 @@
+## assigment 
+
+I am Create 2 folder client and server you want run server go to server folder write command npm run server 
+start as is it run client server open other terminal go to clent write npm start both server run and web site connect client to server.
+
+
+# write 9 API's in Backend
+
+we user all API's perform CRUD operations 
+
+1. Create Users
+2. get all users
+3. login users
+4. Create Blogs
+5. Fetch All Blogs of Logged in User
+6. Fetch Blogs of Logged in Users
+7. Update Blogs of Logged in users
+8. used for Deleting Blogs
+9. Deleting Blogs by query of Logged in Users
+
+
+
 # Dig-Sidekick-assigment
 this is My assigment from Dig SideKick
 
@@ -11,14 +33,17 @@ a. Create a MongoDB database and set up a connection using Mongoose.
 b. Design and implement a RESTful API using Express.js to perform CRUD operations on a
 "users" collection in the MongoDB database.
 c. The API should have the following endpoints:
-GET /users: Get all users
-POST /users: Create a new user
+
+## GET /users: Get all users
+## POST /users: Create a new user
+
 d. Implement input validation and error handling for the API endpoints.
 Frontend Development:
 a. Set up a React.js project using Create React App.
 b. Create a user interface to interact with the API endpoints.
 c. Implement the following features:
-Display a list of users retrieved from the backend API:
+
+## Display a list of users retrieved from the backend API:
 Implement a form to create a new user and send the data to the backend API.
 Allow updating and deleting users from the frontend interface.
 d. Implement client-side input validation and error handling.
@@ -27,7 +52,8 @@ a. Implement user authentication using JSON Web Tokens (JWT) for securing the AP
 endpoints.
 b. Add pagination and sorting functionality to the user listing page.
 c. Implement search functionality to filter users based on specific criteria.
-Submission Guidelines:
+
+## Submission Guidelines:
 Create a Git repository and commit your code regularly as you work on the assignment.
 Include a README file with clear instructions on how to set up and run your project.
 Push your code to a public repository (GitHub, GitLab, etc.) and share the repository URL with

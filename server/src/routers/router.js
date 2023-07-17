@@ -13,15 +13,15 @@ router.get("/getallUsers", getallUsers);
 router.post("/login", login);
 //<--------------------This API used for Create Blogs----------------------------------->//
 router.post("/blog",authenticate, createBlog);
-//<----------------This API used for Fetch All Blogs of Logged in Author---------------->//
+//<----------------This API used for Fetch All Blogs of Logged in User---------------->//
 router.get("/allBlogs/:category",authenticate, getAllBlogsData);
-//<----------------This API used for Fetch Blogs of Logged in Author------------------->//
+//<----------------This API used for Fetch Blogs of Logged in Users------------------->//
 router.get("/blogs/:authorId", authenticate, getBlogsData);
-//<----------------This API used for Update Blogs of Logged in Author------------------>//
+//<----------------This API used for Update Blogs of Logged in users------------------>//
 router.put("/blogs/:blogId", authorize, updateBlog);
 //<----------------These APIs used for Deleting Blogs---------------------------------->//
 router.delete("/blogs/:blogId",  deleteBlog);
-//<----------------These APIs used for Deleting Blogs by query of Logged in Author----->//
+//<----------------These APIs used for Deleting Blogs by query of Logged in Users----->//
 router.delete("/blogs", authorize, deleteBlogQuery);
 
 router.all("/*", (req, res) => {
