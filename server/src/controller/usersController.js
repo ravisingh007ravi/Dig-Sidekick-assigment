@@ -24,8 +24,8 @@ exports.createUsers = async (req, res) => {
         const duplicateEmail = await UserModel.findOne({ email: email });
         if (duplicateEmail) { return res.status(400).send({ status: false, message: "Email is already exist" }) };
 
-        // if (!(isValid(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter Phone No" }) }
-        // if (!(isValidphoneNo(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter valid Phone No" }) }
+        if (!(isValid(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter Phone No" }) }
+        if (!(isValidphoneNo(phoneNo))) { return res.status(400).send({ status: false, message: "please Enter valid Phone No" }) }
 
         const duplicatePhone = await UserModel.findOne({ phoneNo: phoneNo });
         if (duplicatePhone) { return res.status(400).send({ status: false, message: "phone is already exist" }) };
@@ -68,10 +68,10 @@ exports.login = async (req, res) => {
 
         let { email, password } = author;
 
-        if (email.trim().length === 0 || password.trim().length === 0) return res.status(400).send({ status: false, msg: "please provide login details" });
+        if (email.trim().length === 0) return res.status(400).send({ status: false, message: "please provide login details" });
 
         if (!email) return res.status(400).send({ message: " email is required " })
-        if (!password) return res.status(400).send({ message: "  password is required " })
+        if (!password) return res.status(400).send({ message: "password is required " })
 
         let users = await usersModel.findOne({ email: email })
         if (!users) return res.status(400).send({ message: "Email is Incorrect!" })
