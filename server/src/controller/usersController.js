@@ -1,5 +1,5 @@
 const UserModel = require("../models/usersModel")
-const { isValid, isValidName, isValidphoneNo, isValidEmail, isValidPassword, isdescription } = require("../validation/validation")
+const { isValid, isValidName, isValidphoneNo, isValidEmail, isValidPassword } = require("../validation/validation")
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const usersModel = require("../models/usersModel");
@@ -9,7 +9,7 @@ exports.createUsers = async (req, res) => {
     try {
 
         let data = req.body;
-        let { fname, lname, email, phoneNo, password, description } = data;
+        let { fname, lname, email, phoneNo, password } = data;
 
 
         if (!(isValid(fname))) { return res.status(400).send({ status: false, message: "please Enter First Name" }) }
